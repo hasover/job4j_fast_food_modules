@@ -10,6 +10,7 @@ import java.util.List;
 public class Order {
     private int id;
     private List<Integer> dishIds;
+    private String status;
     private int paymentId;
     private int kitchenId;
     private int deliveryId;

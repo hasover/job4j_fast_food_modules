@@ -1,11 +1,14 @@
 package ru.job4j;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(of = "id")
-public class Notification {
+@Builder
+public class Card {
     private int id;
-    private String message;
+    private double balance;
+    private int customerId;
 }

@@ -5,7 +5,8 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(of = "id")
-public class Notification {
+public class Customer {
     private int id;
-    private String message;
+    private String name;
+    private int cardId;
 }
