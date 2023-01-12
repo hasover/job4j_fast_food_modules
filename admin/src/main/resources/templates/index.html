@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Быстро и в точку</title>
+</head>
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th> Наименование </th>
+        <th> Цена </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${dishes.empty}">
+        <td colspan="2"> Список пуст </td>
+    </tr>
+    <tr th:each="dish : ${dishes}">
+        <td><span th:text="${dish.name}"> Title </span></td>
+        <td><span th:text="${dish.cost}"> Author </span></td>
+        <td>
+            <form action="#" th:action="@{'/delete/{id}'(id=${dish.id})}" th:method="delete" >
+                <button type="submit" class="btn">
+                    Удалить
+                </button>
+            </form>
+        </td>
+       <td>
+           <a th:href="@{/edit(id=${dish.id})}">
+               <button type="button"> Изменить </button>
+           </a>
+       </td>
+
+    </tr>
+    </tbody>
+</table>
+<br><br><br>
+
+    <form action="#" th:action="@{/dish}" th:object="${dish}" method="post">
+        <fieldset>
+            <legend>Добавление нового блюда</legend>
+        <p>Наименование: <input type="text" th:field="*{name}" /></p>
+        <p>Цена: <input type="text" th:field="*{cost}" /></p>
+        <p><input type="submit" value="Добавить" /> <input type="reset" value="Сброс" /></p>
+        </fieldset>
+    </form>
+
+
+</body>
+</html>

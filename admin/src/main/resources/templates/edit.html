@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Быстро и в точку</title>
+</head>
+<body>
+<form action="#" th:action="@{/edit}" th:object="${dish}" th:method="put">
+    <fieldset>
+        <legend>Добавление нового блюда</legend>
+        <p>Наименование: <input type="text" th:field="*{name}" /></p>
+        <p>Цена: <input type="text" th:field="*{cost}" /></p>
+        <input type="hidden" th:field="*{id}"/>
+        <p><input type="submit" value="Изменить" /> </p>
+    </fieldset>
+</form>
+
+</body>
+</html>
