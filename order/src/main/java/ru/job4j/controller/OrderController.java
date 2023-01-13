@@ -22,7 +22,7 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createOrder(Order order) {
+    public void createOrder(@RequestBody Order order) {
         orderService.createOrder(order);
     }
 
