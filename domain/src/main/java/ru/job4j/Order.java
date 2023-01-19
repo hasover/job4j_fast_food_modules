@@ -18,7 +18,8 @@ public class Order {
     @CollectionTable(name = "order_dishes", joinColumns = @JoinColumn(name = "order_id"))
     @Column(name = "dish_id")
     private List<Integer> dishIds;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
     private int paymentId;
     private int kitchenId;
     private int deliveryId;
