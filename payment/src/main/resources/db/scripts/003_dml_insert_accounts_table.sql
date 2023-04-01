@@ -1,0 +1,1 @@
+insert into accounts(id, balance) values (1, 500), (2, 1000), (3, 1500)

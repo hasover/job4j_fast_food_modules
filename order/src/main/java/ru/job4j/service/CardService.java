@@ -2,7 +2,7 @@ package ru.job4j.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.job4j.Card;
+import ru.job4j.Account;
 import ru.job4j.repository.CardRepository;
 
 import java.util.Optional;
@@ -12,8 +12,8 @@ import java.util.Optional;
 public class CardService {
     private final CardRepository cardRepository;
 
-    public Card buyCard(int customerId, double sum) {
-        Card card = Card
+    public Account buyCard(int customerId, double sum) {
+        Account card = Account
                 .builder()
                 .customerId(customerId)
                 .balance(sum)
@@ -22,7 +22,7 @@ public class CardService {
         return card;
     }
 
-    public Optional<Card> findCustomerCard(int customerId) {
+    public Optional<Account> findCustomerCard(int customerId) {
         return cardRepository.findByCustomerId(customerId);
     }
 }
