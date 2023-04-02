@@ -15,7 +15,7 @@ import ru.job4j.service.PaymentService;
 @Slf4j
 public class PaymentController {
     private final PaymentService paymentService;
-    @PostMapping("/pay")
+    @PostMapping
     public ResponseEntity<Payment> payForTheOrder(@RequestBody PaymentRequest request) {
         try {
             Payment payment = paymentService.processPayment(request.getAccountId(), request.getTotal());
@@ -26,7 +26,7 @@ public class PaymentController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping("/refund/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Payment> payForTheOrder(@PathVariable int id) {
         try {
             Payment payment = paymentService.refundPayment(id);
