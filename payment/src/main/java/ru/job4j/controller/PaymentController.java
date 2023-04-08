@@ -15,13 +15,15 @@ import ru.job4j.service.PaymentService;
 @Slf4j
 public class PaymentController {
     private final PaymentService paymentService;
+
     @PostMapping
     public ResponseEntity<Payment> payForTheOrder(@RequestBody PaymentRequest request) {
         try {
-            Payment payment = paymentService.processPayment(request.getAccountId(), request.getTotal());
+            Payment payment = paymentService.processPayment(request.getAccountId(),
+                    request.getTotal());
             return new ResponseEntity<>(payment, HttpStatus.CREATED);
         } catch (Exception ex) {
-            log.error("Error processing payment:{}",ex.getMessage());
+            log.error("Error processing payment:{}", ex.getMessage());
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
