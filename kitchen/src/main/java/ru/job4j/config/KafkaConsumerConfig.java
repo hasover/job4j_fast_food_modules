@@ -33,18 +33,12 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConsumerFactory<Integer, OrderEvent> consumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaGroupId);
         return new DefaultKafkaConsumerFactory<>(
-                consumerConfigs(), new IntegerDeserializer(),
+                props, new IntegerDeserializer(),
                 new JsonDeserializer<>(OrderEvent.class));
     }
 
-    @Bean
-    public Map<String, Object> consumerConfigs() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaGroupId);
-        return props;
-    }
 }

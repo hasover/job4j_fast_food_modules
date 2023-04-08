@@ -9,6 +9,7 @@ import ru.job4j.OrderHistory;
 import ru.job4j.OrderStatus;
 import ru.job4j.event.OrderEvent;
 import ru.job4j.filter.OrderFilter;
+import ru.job4j.messaging.EventPublisher;
 import ru.job4j.repository.KitchenRepository;
 
 import java.util.concurrent.TimeUnit;
@@ -19,35 +20,32 @@ import java.util.concurrent.TimeUnit;
 public class KitchenService {
 
     private final KitchenRepository kitchenRepository;
-    private final KafkaTemplate<Integer, Object> template;
     private final OrderFilter orderFilter;
-    @Value("${kitchen.topic.out}")
-    private String kitchenTopicOut;
+    private final EventPublisher eventPublisher;
 
     public void processOrder(OrderEvent orderEvent) {
-       if (orderFilter.canAcceptTheOrder(orderEvent.getDishIds())) {
+       if (orderFilter.canAcceptTheOrder(orderEvent.getDishes())) {
            try {
                acceptOrder(orderEvent);
            } catch (InterruptedException e) {
-               log.debug("Error processing order:{e}", e);
+               log.debug("Error processing order:{}", e.getMessage());
                cancelOrder(orderEvent);
            }
        } else {
            cancelOrder(orderEvent);
        }
-        template.send(kitchenTopicOut, orderEvent);
+        kitchenRepository.save(
+                new OrderHistory(orderEvent.getOrderId(), orderEvent.getOrderStatus()));
     }
 
     public void acceptOrder(OrderEvent orderEvent) throws InterruptedException {
-        TimeUnit.MINUTES.sleep(1);
-        kitchenRepository.save(
-                new OrderHistory(orderEvent.getOrderId(), OrderStatus.ORDER_COMPLETED));
-        orderEvent.setOrderStatus(OrderStatus.ORDER_COMPLETED);
+        TimeUnit.SECONDS.sleep(15);
+        orderEvent.setOrderStatus(OrderStatus.ORDER_COOKED);
+        eventPublisher.orderCooked(orderEvent);
     }
 
     public void cancelOrder(OrderEvent orderEvent) {
-        kitchenRepository.save(
-                new OrderHistory(orderEvent.getOrderId(), OrderStatus.ORDER_CANCELLED));
         orderEvent.setOrderStatus(OrderStatus.ORDER_CANCELLED);
+        eventPublisher.cancelledOrder(orderEvent);
     }
 }
