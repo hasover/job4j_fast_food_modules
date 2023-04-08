@@ -1,12 +1,14 @@
 package ru.job4j;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Data
 @EqualsAndHashCode(of = "id")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "notifications")
 public class Notification {
@@ -14,4 +16,5 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String message;
+    private String email;
 }
