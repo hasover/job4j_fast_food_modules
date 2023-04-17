@@ -100,6 +100,6 @@ public class OrderService {
         return dishes.entrySet()
                 .stream()
                 .mapToDouble(entry -> entry.getValue() * dishMap.get(entry.getKey()).getCost())
-                .reduce(0, Double::sum);
+                .sum();
     }
 }

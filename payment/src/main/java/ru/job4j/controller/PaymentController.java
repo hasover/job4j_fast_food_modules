@@ -29,7 +29,7 @@ public class PaymentController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Payment> payForTheOrder(@PathVariable int id) {
+    public ResponseEntity<Payment> refundPayment(@PathVariable int id) {
         try {
             Payment payment = paymentService.refundPayment(id);
             return new ResponseEntity<>(payment, HttpStatus.OK);
