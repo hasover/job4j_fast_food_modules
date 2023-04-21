@@ -102,4 +102,8 @@ public class OrderService {
                 .mapToDouble(entry -> entry.getValue() * dishMap.get(entry.getKey()).getCost())
                 .sum();
     }
+
+    public void updateDishMemRepository() {
+        dishRepository.updateRepository();
+    }
 }
